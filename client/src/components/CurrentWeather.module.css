@@ -1,0 +1,24 @@
+.current {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.current i {
+  font-size: 150px;
+  line-height: 1.2;
+}
+
+.city {
+  margin: 10px 0 0;
+  font-size: 62px;
+  font-weight: 300;
+}
+
+.temp {
+  margin: 0;
+  font-size: 106px;
+  font-weight: 300;
+  line-height: 1;
+}
