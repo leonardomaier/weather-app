@@ -1,0 +1,21 @@
+:root {
+  --bg-gradient-top: #016ac4;
+  --bg-gradient-bottom: #51d8fe;
+  --card-top: #a5d8fb;
+  --card-mid: #74b5d3;
+  --card-bottom: #3094ae;
+  --sidebar-bg: #f8f8f8;
+  --sidebar-border: #e0e0e0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #111;
+}
