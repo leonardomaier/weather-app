@@ -46,6 +46,10 @@ npm start
 Builds the client and serves everything (static files + API) from a single Express
 process on http://localhost:3001.
 
+## Approach
+
+How I built this and the main technical choices are in [APPROACH.md](./APPROACH.md).
+
 ## Project structure
 
 ```
