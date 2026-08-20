@@ -2,20 +2,20 @@ import { useState } from 'react'
 import { SearchPanel } from './components/SearchPanel'
 import { CurrentWeather } from './components/CurrentWeather'
 import { ForecastList } from './components/ForecastList'
+import { useCitySearch } from './hooks/useCitySearch'
+import { useWeather } from './hooks/useWeather'
 import { DISCLAIMER_LIABILITY } from './content/disclaimer'
-import type { City } from './api/types'
-import { MOCK_CITIES, MOCK_REPORT } from './mock/chicago'
+import type { City, Units } from './api/types'
 import styles from './App.module.css'
+
+// the reference design shows Fahrenheit (Chicago at 80°)
+const UNITS: Units = 'imperial'
 
 function App() {
   const [query, setQuery] = useState('')
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
-
-  const trimmed = query.trim().toLowerCase()
-  const suggestions =
-    trimmed.length < 2
-      ? []
-      : MOCK_CITIES.filter((city) => city.name.toLowerCase().includes(trimmed))
+  const suggestions = useCitySearch(query)
+  const weather = useWeather(selectedCity, UNITS)
 
   function selectCity(city: City) {
     setSelectedCity(city)
@@ -35,13 +35,17 @@ function App() {
         <h1 className={styles.title}>Weather</h1>
 
         <div className={styles.content}>
-          {!selectedCity && (
+          {weather.status === 'idle' && (
             <p className={styles.message}>Search for a city to see the forecast</p>
           )}
-          {selectedCity && (
+          {weather.status === 'loading' && (
+            <span className={styles.spinner} role="status" aria-label="Loading forecast" />
+          )}
+          {weather.status === 'error' && <p className={styles.message}>{weather.message}</p>}
+          {weather.status === 'success' && selectedCity && (
             <>
-              <CurrentWeather cityName={selectedCity.name} current={MOCK_REPORT.current} />
-              <ForecastList days={MOCK_REPORT.forecast} />
+              <CurrentWeather cityName={selectedCity.name} current={weather.report.current} />
+              <ForecastList days={weather.report.forecast} />
             </>
           )}
         </div>
